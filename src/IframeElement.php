@@ -30,7 +30,7 @@ class IframeElement extends BaseElement
 
     public function getType()
     {
-        return 'Iframe block';
+        return 'Iframe embed';
     }
 
     public function getEmbedCode() {
