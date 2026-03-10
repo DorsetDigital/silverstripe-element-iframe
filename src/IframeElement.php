@@ -3,7 +3,6 @@ namespace DorsetDigital\Elements;
 
 use DNADesign\Elemental\Models\BaseElement;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\FieldType\DBField;
 
 
 class IframeElement extends BaseElement
@@ -13,14 +12,19 @@ class IframeElement extends BaseElement
     private static $plural_name = 'Iframe Blocks';
     private static $description = 'Embeds an Iframe into the page';
     private static $table_name = 'DorsetDigital_Elements_Iframe';
-    private static $db = [        
-        'EmbedLink' => 'Varchar(1024)'
+    private static $db = [
+        'EmbedLink' => 'HTMLVarchar(1024)'
     ];
 
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-        $fields->addFieldToTab('Root.Main', TextField::create('EmbedLink')->setTitle('Iframe link')->setDescription('The full Iframe code as supplied by the site to be embedded.'));
+        $fields->addFieldToTab('Root.Main', TextField::create('EmbedLink')
+            ->setTitle(_t(self::class . '.LINK_FIELD_TITLE', 'Iframe link'))
+            ->setDescription(_t(
+                self::class . '.LINK_FIELD_DESC',
+                'The full Iframe code as supplied by the site to be embedded.'
+            )));
         return $fields;
     }
 
@@ -28,8 +32,8 @@ class IframeElement extends BaseElement
     {
         return 'Iframe block';
     }
-    
+
     public function getEmbedCode() {
-        return DBField::create_field('HTMLFragment', $this->EmbedLink);
+        return $this->dbObject('EmbedLink');
     }
 }
